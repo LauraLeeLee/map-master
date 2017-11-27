@@ -168,8 +168,8 @@
           <input id="toggle-map-style" type="button" value="Toggle Map Style">
          </div>
       </div>
-      <div id="map"></div>
       <div id="right-panel"></div>
+      <div id="map"></div>
     </div>
     <script>
       var map;
@@ -665,7 +665,9 @@
               draggable: true,
               polylineOptions: {
                 strokeColor: 'green'
-              }
+              },
+              //setPanel: document.getElementById('right-panel'),
+              //setDirections: response
             });
             directionsDisplay.setMap(map);
             directionsDisplay.setPanel(document.getElementById('right-panel'));
