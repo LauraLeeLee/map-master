@@ -665,13 +665,14 @@
               draggable: true,
               polylineOptions: {
                 strokeColor: 'green'
-              },
+              }
               //setPanel: document.getElementById('right-panel'),
               //setDirections: response
             });
             directionsDisplay.setMap(map);
-            directionsDisplay.setPanel(document.getElementById('right-panel'));
             directionsDisplay.setDirections(response);
+            directionsDisplay.setPanel(document.getElementById('right-panel'));
+
           } else {
             window.alert('Directions request failed due to ' + status);
           }
