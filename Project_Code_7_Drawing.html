@@ -257,6 +257,9 @@
           polygon = event.overlay;
           polygon.setEditable(true);
 
+          var area = google.maps.geometry.spherical.computeArea(polygon.getPath());
+          window.alert(area+ "SQUARE METERS");
+
 
           // Searching within the polygon.
           searchWithinPolygon();
@@ -368,8 +371,6 @@
             markers[i].setMap(null);
           }
         }
-        var area = google.maps.geometry.spherical.computedArea(polygon.getPath());
-        window.alert(area+ "SQUARE METERS");
       }
     </script>
 
