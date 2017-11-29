@@ -44,6 +44,7 @@
         left: 362px;
         position: absolute;
         right: 0px;
+        z-index: 0;
       }
 
       .options-box {
@@ -98,27 +99,23 @@
       }
 
       #right-panel {
+        position: relative;
+        margin-top: -710px;
+        padding-right: 10px;
+        z-index:3;
+        float: right;
         font-family: 'Roboto','sans-serif';
         line-height: 30px;
         padding-left: 10px;
         height: 100%;
-        float: right;
-        width: 390px;
+        width: 300px;
         overflow: auto;
       }
 
-      #right-panel select, #right-panel input {
-       font-size: 15px;
-     }
-
-     #right-panel select {
-       width: 100%;
-     }
-
-     #right-panel i {
-       font-size: 12px;
-     }
-
+      #toggle-off-route {
+        width: 30%;
+        position: relative;
+      }
     </style>
   </head>
   <body>
@@ -155,6 +152,7 @@
           <span class="text">of</span>
           <input id="search-within-time-text" type="text" placeholder="Ex: Google Office NYC or 75 9th Ave, New York, NY">
           <input id="search-within-time" type="button" value="Go">
+          <input id="toggle-off-route" type="button" value="Toggle Off Route">
         </div>
         <hr>
         <div>
@@ -366,6 +364,10 @@
            toggleMapStyle(map);
         });
 
+        document.getElementById('toggle-off-route').addEventListener('click', function() {
+          toggleOffRoute();
+        });
+
         // Listen for the event fired when the user selects a prediction from the
         // picklist and retrieve more details for that place.
         searchBox.addListener('places_changed', function() {
@@ -399,7 +401,7 @@
         });
 
         var trafficLayer = new google.maps.TrafficLayer();
-
+        //toggles on and off the traffic layer
         function toggleTrafficLayer(trafficLayer) {
           if(trafficLayer.map) {
             trafficLayer.setMap(null);
@@ -407,7 +409,7 @@
             trafficLayer.setMap(map);
           }
         }
-
+        //toggles between two map styles-default and the custom
         function toggleMapStyle(map) {
           if(map.styles) {
             map.setOptions({styles: styles['default']});
@@ -416,8 +418,6 @@
           }
        }
       }
-
-
 
       // This function populates the infowindow when the marker is clicked. We'll only allow
       // one infowindow which will open at the marker that is clicked, and populate based
@@ -639,7 +639,6 @@
           window.alert('We could not find any locations within that distance!');
         }
       }
-
       // This function is in response to the user selecting "show route" on one
       // of the markers within the calculated distance. This will display the route
       // on the map.
@@ -659,24 +658,35 @@
           travelMode: google.maps.TravelMode[mode]
         }, function(response, status) {
           if (status === google.maps.DirectionsStatus.OK) {
-            var directionsDisplay = new google.maps.DirectionsRenderer({
+             var directionsDisplay = new google.maps.DirectionsRenderer({
               map: map,
               directions: response,
               draggable: true,
               polylineOptions: {
-                strokeColor: 'green'
-              }
+                strokeColor: 'green',
+              },
+              //displays directions on screen
+              panel: document.getElementById('right-panel')
               //setPanel: document.getElementById('right-panel'),
               //setDirections: response
             });
-            directionsDisplay.setMap(map);
-            directionsDisplay.setDirections(response);
-            directionsDisplay.setPanel(document.getElementById('right-panel'));
+            //sets background of direction panel to white when in effect
+            document.getElementById('right-panel').style.backgroundColor='white';
+            //document.getElementById('map').style.width='40%';
+            //directionsDisplay.setMap(map);
+            //directionsDisplay.setDirections(response);
+            //directionsDisplay.setPanel(document.getElementById('right-panel'));
 
           } else {
             window.alert('Directions request failed due to ' + status);
           }
         });
+      }
+
+      //Clears page of the route path and directions
+      function toggleOffRoute(directionsDisplay) {
+        //document.getElementById('right-panel').value='';
+          directionsDisplay.setMap(null);
       }
 
       // This function fires when the user selects a searchbox picklist item.
