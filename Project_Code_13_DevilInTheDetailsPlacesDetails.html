@@ -171,7 +171,7 @@
     </div>
     <script>
       var map;
-
+      var directionsDisplay;
       // Create a new blank array for all the listing markers.
       var markers = [];
 
@@ -658,7 +658,7 @@
           travelMode: google.maps.TravelMode[mode]
         }, function(response, status) {
           if (status === google.maps.DirectionsStatus.OK) {
-             var directionsDisplay = new google.maps.DirectionsRenderer({
+            directionsDisplay = new google.maps.DirectionsRenderer({
               map: map,
               directions: response,
               draggable: true,
@@ -667,16 +667,9 @@
               },
               //displays directions on screen
               panel: document.getElementById('right-panel')
-              //setPanel: document.getElementById('right-panel'),
-              //setDirections: response
             });
             //sets background of direction panel to white when in effect
             document.getElementById('right-panel').style.backgroundColor='white';
-            //document.getElementById('map').style.width='40%';
-            //directionsDisplay.setMap(map);
-            //directionsDisplay.setDirections(response);
-            //directionsDisplay.setPanel(document.getElementById('right-panel'));
-
           } else {
             window.alert('Directions request failed due to ' + status);
           }
@@ -684,9 +677,12 @@
       }
 
       //Clears page of the route path and directions
-      function toggleOffRoute(directionsDisplay) {
-        //document.getElementById('right-panel').value='';
-          directionsDisplay.setMap(null);
+      function toggleOffRoute() {
+        if(directionsDisplay !=null) {
+        directionsDisplay.setMap(null);
+        directionsDisplay.setPanel(null);
+        document.getElementById('right-panel').style.backgroundColor='transparent';
+       }
       }
 
       // This function fires when the user selects a searchbox picklist item.
