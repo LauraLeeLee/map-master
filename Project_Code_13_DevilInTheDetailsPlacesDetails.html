@@ -99,10 +99,11 @@
       }
 
       #right-panel {
+        background-color: #fff;
         position: relative;
         margin-top: -710px;
         padding-right: 10px;
-        z-index:3;
+        z-index: 0;
         float: right;
         font-family: 'Roboto','sans-serif';
         line-height: 30px;
@@ -337,7 +338,6 @@
           });
         }
         document.getElementById('show-listings').addEventListener('click', showListings);
-
         document.getElementById('hide-listings').addEventListener('click', function() {
           hideMarkers(markers);
         });
@@ -669,7 +669,7 @@
               panel: document.getElementById('right-panel')
             });
             //sets background of direction panel to white when in effect
-            document.getElementById('right-panel').style.backgroundColor='white';
+            document.getElementById('right-panel').style.zIndex='3';
           } else {
             window.alert('Directions request failed due to ' + status);
           }
@@ -679,9 +679,10 @@
       //Clears page of the route path and directions
       function toggleOffRoute() {
         if(directionsDisplay !=null) {
-        directionsDisplay.setMap(null);
-        directionsDisplay.setPanel(null);
-        document.getElementById('right-panel').style.backgroundColor='transparent';
+         directionsDisplay.setMap(null);
+         directionsDisplay.setPanel(null);
+         document.getElementById('right-panel').style.backgroundColor='transparent';
+         document.getElementById('right-panel').style.zIndex='0';
         initMap();
        }
       }
@@ -792,6 +793,7 @@
             innerHTML +='<br><br><a href='+ place.website +'>'+place.website+'</a>';
           }
           if (place.photos) {
+            //placePhotosArray = place.photos[];
             innerHTML += '<br><br><img src="' + place.photos[0].getUrl(
                 {maxHeight: 100, maxWidth: 200}) + '">';
           }
